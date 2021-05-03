@@ -51,6 +51,32 @@
   text-align: left;
 }
 
+.imageview-search {
+  background-color: #d90429;
+  font-family: "Noto Sans JP", sans-serif;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  font-size: 12px;
+  margin: 0 10px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.images-search {
+  padding-left: 70%;
+}
+
+.images-search label {
+  font-size: 20px;
+  color: #edf2f4;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
 .imagesview h1 {
   padding-top: 2%;
   padding-left: 17%;
@@ -360,4 +386,44 @@ nav {
 .card:hover {
   transform: scale(1.15);
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
+}
+
+.dropzone-content {
+  height: 40%;
+  width: 20%;
+  border: 4px dashed #2b2d42;
+  background-color: #8d99ae;
+  color: #edf2f4;
+  font-family: "Noto Sans JP", sans-serif;
+  text-align: center;
+  cursor: pointer;
+}
+
+.addImagesPage {
+  padding-left: 17%;
+  padding-top: 2%;
+  min-height: 100vh;
+  height: 100%;
+  width: 100vw;
+  background-color: #8d99ae;
+  color: #edf2f4;
+  font-family: "Noto Sans JP", sans-serif;
+  padding-top: 1px;
+  text-align: left;
+}
+
+.add-upload {
+  background-color: #d90429;
+  font-family: "Noto Sans JP", sans-serif;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  font-size: 12px;
+  margin: 0 0px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
 }

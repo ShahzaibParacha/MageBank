@@ -11,6 +11,8 @@ import ImageView from "./components/imageview.component";
 import Error from "./components/error.component";
 import About from "./components/about.component";
 import Navbar from "./components/navbar.component";
+import Add from "./components/add.component";
+
 
 const App = () => {
   return (
@@ -21,6 +23,7 @@ const App = () => {
         <Route path="/images" exact component={ImagesView} />
         <Route path="/image/:id" exact component={ImageView} />
         <Route path="/about" exact component={About} />
+        <Route path="/add" exact component={Add} />
         <Route path="/404" exact component={Error} />
         <Redirect to="/404" />
       </Switch>
