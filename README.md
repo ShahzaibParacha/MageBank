@@ -1,5 +1,6 @@
-![MageBank](./public/favicon.ico)
-# Magebank
+# <img align="center" width="50" height="50" src="./public/favicon.ico"> MageBank
+
+
 
 ### the active site is available [here](https://somehting.com)
 
