@@ -51,15 +51,31 @@
   text-align: left;
 }
 
-.imageview-search {
+.imagesview-search {
   background-color: #d90429;
   font-family: "Noto Sans JP", sans-serif;
   border: none;
   color: white;
-  padding: 16px 32px;
+  padding: 4px 32px;
   text-align: center;
   font-size: 12px;
   margin: 0 10px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.imagesview-delete {
+  background-color: #d90429;
+  font-family: "Noto Sans JP", sans-serif;
+  border: none;
+  color: white;
+  padding: 10px 32px;
+  text-align: center;
+  font-size: 18px;
+  margin: 25px 17%;
   opacity: 0.6;
   transition: 0.3s;
   display: inline-block;

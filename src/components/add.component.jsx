@@ -1,29 +1,27 @@
 import React, { useCallback, useState } from "react";
-import "../App.css";
+import "../MageBank.css";
 import Dropzone from "./dnd.component";
 import ImageList from "./imagelist.component";
 import cuid from "cuid";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const AddImages = () => {
+  const history = useHistory();
   const [keyWords, setKeyWords] = useState("");
   const [images, setImages] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [uploadMessage, setUploadMessage] = useState("");
 
   const onDropAccepted = useCallback((acceptedFiles) => {
-    // Loop through accepted files
     acceptedFiles.map((file) => {
-      // Initialize FileReader browser API
       const reader = new FileReader();
-      // onload callback gets called after the reader reads the file data
       reader.onload = function (e) {
-        // add the image into the state. Since FileReader reading process is asynchronous, its better to get the latest snapshot state (i.e., prevState) and update it.
         setImages((prevState) => [
           ...prevState,
           { id: cuid(), src: e.target.result, name: file.name },
         ]);
       };
-      // Read the file as Data URL (since we accept only images)
       setErrorMessage("");
       reader.readAsDataURL(file);
       return file;
@@ -42,12 +40,28 @@ const AddImages = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`We have ${images.length} images.`);
-    if(images.length > 0) {
-      //handle uplaod
-      setUploadMessage("Upload Sucessful!")
-    }
-    else {
-      setUploadMessage("Upload Failed! Try again")
+    if (images.length > 0) {
+      images.forEach((image) => {
+        axios({
+          method: "post",
+          url: `http://localhost:4000/image`,
+          params: {
+            address: "generated",
+            filename: image.name,
+            keywords: keyWords,
+          },
+        })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.error();
+          });
+      });
+      setUploadMessage("Upload Sucessful!");
+      history.push("/Images");
+    } else {
+      setUploadMessage("Upload Failed! Try again");
     }
   };
 
@@ -62,7 +76,7 @@ const AddImages = () => {
           accept={"image/*"}
         />
         <br />
-        <ImageList images={images} />
+        <ImageList images={images} />{" "}
         {errorMessage && <h3> {errorMessage} </h3>}
         <form onSubmit={handleSubmit}>
           <label>
@@ -70,7 +84,7 @@ const AddImages = () => {
             <input type="text" onChange={handleChange} />
           </label>
           <br />
-        <button className="add-upload">Upload!</button>
+          <button className="add-upload">Upload!</button>
         </form>
         {uploadMessage && <h3> {uploadMessage} </h3>}
       </div>

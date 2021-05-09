@@ -1,35 +1,30 @@
-// import React, { useEffect, useState } from "react";
-import React, { useState } from "react";
-import "../App.css";
+import React, { useState, useEffect } from "react";
+import "../MageBank.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function ImagesView() {
   const [searchParameter, setSearchParameter] = useState("");
+  const [allImages, setImages] = useState([]);
 
-  //   useEffect(() => {
-  //     fetchItems();
-  //   }, []);
+  useEffect(() => {
+    fetchImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  //   const [items, setItems] = useState([]);
-
-  //   async function fetchItems() {
-  //     const allProjects = await fetch("http://localhost:4000/projects");
-  //     const items = await allProjects.json();
-  //     setItems(items.allProjects);
-  //   }
-
-  const items = [
-    { id: 1, name: "image1", category: "none" },
-    { id: 2, name: "image1", category: "none" },
-    { id: 3, name: "image1", category: "none" },
-    { id: 4, name: "image1", category: "none" },
-    { id: 5, name: "image1", category: "none" },
-    { id: 6, name: "image1", category: "none" },
-    { id: 7, name: "image1", category: "none" },
-  ];
+  const fetchImages = async () => {
+    await axios({
+      method: "get",
+      url: `http://localhost:4000/allImages`,
+    })
+      .then((images) => {
+        setImages(images.data.allImages);
+      })
+      .catch(console.error);
+  };
 
   let noImage;
-  if (items.length === 0) {
+  if (allImages.length === 0) {
     noImage = true;
   } else {
     noImage = false;
@@ -37,14 +32,14 @@ function ImagesView() {
 
   function displayCard(item) {
     return (
-      <Link to={`/image/${item["id"]}`}>
+      <Link key={item.img_id} to={`/image/${item["img_id"]}`}>
         <div className="card">
           <div className="card-image">
-            <img src="IMG_1701.JPG" alt="image1" />
+            <img src={item["filename"]} alt={item["filename"]} />
           </div>
           <div className="card-stats">
             <div className="stat">
-              <div className="value">{item["name"]}</div>
+              <div className="value">{item["filename"]}</div>
             </div>
           </div>
         </div>
@@ -52,14 +47,38 @@ function ImagesView() {
     );
   }
 
+  const handleDeleteAll = async (e) => {
+    e.preventDefault();
+    await axios({
+      method: "delete",
+      url: `http://localhost:4000/allImages`,
+    })
+      .then(window.location.reload())
+      .catch(console.error);
+  };
+
   const handleChange = (e) => {
     setSearchParameter(e.target.value);
   };
 
+  const search = async () => {
+    await axios({
+      method: "get",
+      url: `http://localhost:4000/allImages/${searchParameter}`,
+    })
+      .then((images) => {
+        setImages(images.data.image);
+      })
+      .catch(console.error);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(searchParameter);
-    //initaite seacrh and only display items from that search, everythign when empty string and nothing when nothing matches
+    if (searchParameter.length === 0) {
+      alert("Empty search! Please retry with valid keywords or filename.");
+    } else {
+      search(searchParameter);
+    }
   };
 
   let conditionalRender;
@@ -72,14 +91,19 @@ function ImagesView() {
   } else {
     conditionalRender = (
       <div className="imagesview">
-        <h1>MageBank ImagesView</h1>
+        <h1>All Images</h1>
+        <button className="imagesview-delete" onClick={handleDeleteAll}>
+          Delete All
+        </button>
         <form className="images-search" onSubmit={handleSubmit}>
           <label>
             <input type="text" onChange={handleChange} />
           </label>
-          <button className="imageview-search">Search!</button>
+          <button className="imagesview-search">Search!</button>
         </form>
-        <div className="wrapper">{items.map((item) => displayCard(item))}</div>
+        <div className="wrapper">
+          {allImages.map((image) => displayCard(image))}
+        </div>
       </div>
     );
   }

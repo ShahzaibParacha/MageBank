@@ -1,4 +1,4 @@
-import "./App.css";
+import "./MageBank.css";
 import {
   BrowserRouter as Router,
   Route,
@@ -14,7 +14,7 @@ import Navbar from "./components/navbar.component";
 import Add from "./components/add.component";
 
 
-const App = () => {
+const MageBank = () => {
   return (
     <Router>
       <Navbar />
@@ -31,4 +31,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default MageBank;
